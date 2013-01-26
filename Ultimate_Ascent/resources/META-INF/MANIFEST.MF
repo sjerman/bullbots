@@ -1,6 +1,6 @@
 MIDlet-Name: Ultimate_Ascent
 MIDlet-Version: 1.0.0
 MIDlet-Vendor: FIRST
-MIDlet-1: Main, , edu.wpi.first.wpilibj.templates.Main
+MIDlet-1: Main, ,  org.bullbots.ascend.Main
 MicroEdition-Profile: IMP-1.0
 MicroEdition-Configuration: CLDC-1.1
