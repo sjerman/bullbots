@@ -25,6 +25,7 @@ public class DriveJaguar {
             jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
         }
         catch(CANTimeoutException ex){
+            System.out.println("Problem initing jags");
             ex.printStackTrace();
         }
     
@@ -36,5 +37,15 @@ public class DriveJaguar {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public double getSetSpeed(){
+        try {
+            return jag.getX();
+        } catch (CANTimeoutException ex) {
+            System.out.println("Problem getting speed");
+            ex.printStackTrace();
+        }
+        return 0;
     }
 }
