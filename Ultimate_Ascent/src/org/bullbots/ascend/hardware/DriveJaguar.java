@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class DriveJaguar {
     CANJaguar jag;
     
-    int P = 1;
-    int I = 1;
-    int D = 1;
+    double P = .05;
+    double I = .02;
+    double D = .5;
     
     public DriveJaguar(int number){
         try{
