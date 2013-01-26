@@ -9,12 +9,14 @@ import org.bullbots.ascend.hardware.DriveTrain;
 public class Main extends IterativeRobot {
     
     DriveTrain driveTrain;
+    JoystickControl joystick;
+    JoystickControl gamepad;
     
     public void robotInit() {
-        JoystickControl joystick = new JoystickControl(1);
-        JoystickControl gamepad = new JoystickControl(2);
+        joystick = new JoystickControl(1);
+        gamepad = new JoystickControl(2);
         
-         driveTrain = new DriveTrain();
+        driveTrain = new DriveTrain();
     }
 
     
@@ -24,7 +26,7 @@ public class Main extends IterativeRobot {
 
     
     public void teleopPeriodic() {
-        driveTrain.drive(joystick., ROBOT_TASK_PRIORITY);
+        driveTrain.drive(joystick.getYAxis(), joystick.getXAxis());
     }
     
 }
