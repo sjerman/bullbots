@@ -20,7 +20,7 @@ public class DriveJaguar {
     
     public DriveJaguar(int number){
         try{
-            jag = new CANJaguar(number, CANJaguar.ControlMode.kSpeed);
+            jag = new CANJaguar(number);
             jag.setPID(P, I, D);
             jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
         }
