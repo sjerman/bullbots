@@ -12,17 +12,21 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  * @author Admin
  */
 public class DriveJaguar {
-    CANJaguar jag;
+    private  CANJaguar jag;
     
-    double P = .05;
-    double I = .02;
-    double D = .5;
+//    double P = .05;
+//    double I = .02;
+//    double D = .5;
     
-    public DriveJaguar(int number){
+    public DriveJaguar(int number, double P, double I, double D){
         try{
-            jag = new CANJaguar(number);
+            jag = new CANJaguar(number, CANJaguar.ControlMode.kSpeed);
             jag.setPID(P, I, D);
             jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
+            jag.configEncoderCodesPerRev(360);
+            jag.configMaxOutputVoltage(12);
+            jag.enableControl();
+            
         }
         catch(CANTimeoutException ex){
             System.out.println("Problem initializing jags");
@@ -34,6 +38,7 @@ public class DriveJaguar {
     public void set(double value){
         try {
             jag.setX(value);
+            System.out.println("setting to: " + value);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -44,7 +49,7 @@ public class DriveJaguar {
             return jag.getX();
         } catch (CANTimeoutException ex) {
             System.out.println("Problem getting speed");
-            ex.printStackTrace();
+//            ex.printStackTrace();
         }
         return 3.14159265358979323846264332;
     }

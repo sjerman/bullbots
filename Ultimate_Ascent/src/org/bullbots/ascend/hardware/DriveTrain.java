@@ -11,25 +11,25 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  */
 public class DriveTrain {
     
-    double leftValue;
-    double rightValue;
-    
-    DriveJaguar left;
-    DriveJaguar right;
+    private  DriveJaguar left;
+    private DriveJaguar right;
     
     public DriveTrain(){
         
-        left = new DriveJaguar(7);
-        right = new DriveJaguar(3);
+        right = new DriveJaguar(3, .05, .02, .5); //jag number, and P, I, and D
+        left = new DriveJaguar(6, .05, .02, .5); //jag number, and P, I, and D
+        
 
     }
     
     public void drive(double forwardSpeed, double turnSpeed){
-        leftValue = forwardSpeed + turnSpeed;
-        rightValue = forwardSpeed - turnSpeed;
-        if(left.getSetSpeed() != leftValue || right.getSetSpeed() != rightValue){
+        double leftValue = forwardSpeed + turnSpeed;
+        double rightValue = forwardSpeed - turnSpeed;
+        System.out.println("Setting speed:"+leftValue);
+        if(right.getSetSpeed() != leftValue || left.getSetSpeed() != rightValue){
             left.set(leftValue);
             right.set(rightValue);
+            //System.out.println("its working");
         }
         
     }

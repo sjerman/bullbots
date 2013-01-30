@@ -14,7 +14,7 @@ public class Main extends IterativeRobot {
     
     public void robotInit() {
         joystick = new JoystickControl(1);
-        gamepad = new JoystickControl(2);
+        //gamepad = new JoystickControl(2);
         
         driveTrain = new DriveTrain();
     }
@@ -26,7 +26,14 @@ public class Main extends IterativeRobot {
 
     
     public void teleopPeriodic() {
-        driveTrain.drive(joystick.getYAxis(), joystick.getXAxis());
+        try{
+            
+            driveTrain.drive(joystick.getYAxis() * 100, joystick.getXAxis() * 100);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
     
 }
