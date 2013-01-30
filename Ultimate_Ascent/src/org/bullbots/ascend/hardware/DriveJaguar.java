@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class DriveJaguar {
     CANJaguar jag;
     
-    int P = 1;
-    int I = 1;
-    int D = 1;
+    double P = .05;
+    double I = .02;
+    double D = .5;
     
     public DriveJaguar(int number){
         try{
@@ -25,7 +25,7 @@ public class DriveJaguar {
             jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
         }
         catch(CANTimeoutException ex){
-            System.out.println("Problem initing jags");
+            System.out.println("Problem initializing jags");
             ex.printStackTrace();
         }
     
@@ -46,6 +46,6 @@ public class DriveJaguar {
             System.out.println("Problem getting speed");
             ex.printStackTrace();
         }
-        return 0;
+        return 3.14159265358979323846264332;
     }
 }
