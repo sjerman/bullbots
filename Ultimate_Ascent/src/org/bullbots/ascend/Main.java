@@ -31,6 +31,7 @@ public class Main extends IterativeRobot {
     public void teleopPeriodic() {
         try{
             trackingController.trackGoal();
+            System.out.println("tracking");
             if(joystick.getButton(2)){
                 
                 if(Math.abs(trackingController.getDif()) > 5){

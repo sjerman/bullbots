@@ -38,7 +38,7 @@ public class DriveJaguar {
     public void set(double value){
         try {
             jag.setX(value);
-            System.out.println("setting to: " + value);
+            //System.out.println("setting to: " + value);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

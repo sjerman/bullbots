@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.image.ColorImage;
 public class Camera {
 
     private static AxisCamera cam; 
+    private ColorImage img;
     
     public Camera(){
         try{
@@ -28,7 +29,12 @@ public class Camera {
     
     public ColorImage getCameraImage(){
         try{
-            ColorImage img = cam.getImage();
+            if(cam.freshImage()){
+                if(img != null){
+                    img.free();
+                }
+                img = cam.getImage();
+            }
             return img;
         }
         catch(Exception ex){

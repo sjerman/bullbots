@@ -48,6 +48,7 @@ public class TrackingController {
     public void trackGoal(){
         image = camera.getCameraImage();
         
+        
         try
         {
             filteredImage = image.thresholdRGB(0, 0, GREEN_LOW, GREEN_HIGH, 0, 0);
@@ -78,19 +79,19 @@ public class TrackingController {
             
             
             if(!pressed && joystick.getButton(9)){
-                filteredImage.write("FilteredImage.png");
+                filteredImage.write("/FilteredImage.png");
+                System.out.println("Writing image");
                 pressed = true;
             } 
             else{
                 pressed = false;
             }
             
+            System.out.println("Freeing images");
             filteredImage.free();
             image.free();
-            
-            
+             
         }
-        
         catch(Exception e){}
     }
 }
