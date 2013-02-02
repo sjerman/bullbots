@@ -20,7 +20,7 @@ public class JoystickControl {
 
     public double getYAxis(){
         double value = joystick.getRawAxis(1);
-        if(value > DEADBAND){
+        if(Math.abs(value) > DEADBAND){
             return value;
         }
         return 0;
@@ -29,7 +29,7 @@ public class JoystickControl {
     
     public double getXAxis(){
         double value = joystick.getRawAxis(2);
-        if(value > DEADBAND){
+        if(Math.abs(value) > DEADBAND){
             return value;
         }
         return 0;

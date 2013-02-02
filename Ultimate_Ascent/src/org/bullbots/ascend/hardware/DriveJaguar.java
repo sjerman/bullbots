@@ -51,6 +51,25 @@ public class DriveJaguar {
             System.out.println("Problem getting speed");
 //            ex.printStackTrace();
         }
-        return 3.14159265358979323846264332;
+        return 0.0;
+    }
+    
+    public CANJaguar.ControlMode getJagControlMode(){
+        try{
+            return jag.getControlMode();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+    
+    public void setJagControlMode(CANJaguar.ControlMode mode){
+        try{
+            jag.changeControlMode((mode));
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

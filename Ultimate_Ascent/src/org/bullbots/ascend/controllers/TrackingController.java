@@ -20,10 +20,16 @@ public class TrackingController {
     ParticleAnalysisReport[] particleReport;
     JoystickControl joystick;
     
+    ParticleAnalysisReport highestRectangle;
+    
     private boolean pressed = false;
     
     private final int GREEN_LOW = 198;
     private final int GREEN_HIGH = 255;
+    
+    private final double RECTANGULARITY = .9;
+    
+    private double dif = 0;
     
     public TrackingController(JoystickControl joystick){
         try{
@@ -33,6 +39,10 @@ public class TrackingController {
         catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+    
+    public double getDif(){
+        return dif;
     }
     
     public void trackGoal(){
@@ -46,6 +56,27 @@ public class TrackingController {
             filteredImage.particleFilter(criteriaCollection);
             particleReport = filteredImage.getOrderedParticleAnalysisReports();
             
+            
+            for(int i = 0; i  < particleReport.length; i++){
+                if(i == 0){
+                    for(int k = 0; k < particleReport.length; k++){
+                        if(particleReport[k].particleArea/(particleReport[k].boundingRectHeight*particleReport[k].boundingRectWidth) >= RECTANGULARITY){
+                            highestRectangle = particleReport[0];
+                            k = particleReport.length;
+                            i = k + 1;
+                        }
+                    } 
+                }
+                else if(highestRectangle.center_mass_y < particleReport[i].center_mass_y && particleReport[i].particleArea/(particleReport[i].boundingRectHeight*particleReport[i].boundingRectWidth) >= RECTANGULARITY){
+                    highestRectangle = particleReport[i];
+                }
+            }
+            
+            
+            dif = (image.getWidth()/2) - highestRectangle.center_mass_x; 
+           
+            
+            
             if(!pressed && joystick.getButton(9)){
                 filteredImage.write("FilteredImage.png");
                 pressed = true;
@@ -56,6 +87,8 @@ public class TrackingController {
             
             filteredImage.free();
             image.free();
+            
+            
         }
         
         catch(Exception e){}

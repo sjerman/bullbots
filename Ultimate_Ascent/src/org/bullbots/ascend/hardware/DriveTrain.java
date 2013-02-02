@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package org.bullbots.ascend.hardware;
+import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
@@ -11,28 +12,56 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  */
 public class DriveTrain {
     
-    private  DriveJaguar left;
+    private DriveJaguar left;
     private DriveJaguar right;
     
-    int FACTOR = 100;
+    private final int SPEED_FACTOR = 100;
+    private final int VOLTAGE_FACTOR = 1;
     
     public DriveTrain(){
         
         right = new DriveJaguar(3, .05, .02, .5); //jag number, and P, I, and D
         left = new DriveJaguar(6, .05, .02, .5); //jag number, and P, I, and D
         
+        //700, 5 , 0
 
     }
     
-    public void drive(double forwardSpeed, double turnSpeed){
-        double leftValue = (forwardSpeed + turnSpeed) * FACTOR;
-        double rightValue = (forwardSpeed - turnSpeed) * FACTOR;
-        System.out.println("Setting speed:"+leftValue);
+    public void driveSpeed(double forwardSpeed, double turnSpeed){
+        if(!(left.getJagControlMode() == CANJaguar.ControlMode.kSpeed)){
+            left.setJagControlMode(CANJaguar.ControlMode.kSpeed);
+        }
+        double leftValue = (forwardSpeed + turnSpeed) * SPEED_FACTOR;
+        double rightValue = (forwardSpeed - turnSpeed) * SPEED_FACTOR;
+        
         if(right.getSetSpeed() != leftValue || left.getSetSpeed() != rightValue){
             left.set(leftValue);
             right.set(rightValue);
-            //System.out.println("its working");
         }
         
+    }
+    
+    public void drivePosition(double leftRotation, double rightRotation){
+        if(!(left.getJagControlMode() == CANJaguar.ControlMode.kPosition)){
+            left.setJagControlMode(CANJaguar.ControlMode.kPosition);
+        }
+        
+        double leftValue = (leftRotation + leftRotation);
+        double rightValue = (rightRotation - rightRotation) ;
+        
+        left.set(leftValue);
+        right.set(rightValue);
+    }
+    
+    public void driveVoltage(double forwardVoltage, double turnVoltage){
+        if(!(left.getJagControlMode() == CANJaguar.ControlMode.kPercentVbus)){
+            left.setJagControlMode(CANJaguar.ControlMode.kPercentVbus);
+        }
+        
+        double leftValue = (forwardVoltage + turnVoltage) * VOLTAGE_FACTOR;
+        double rightValue = (forwardVoltage - turnVoltage) * VOLTAGE_FACTOR;
+        
+        left.set(leftValue);
+        right.set(rightValue);
     }
 }
