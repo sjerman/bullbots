@@ -14,6 +14,8 @@ public class DriveTrain {
     private  DriveJaguar left;
     private DriveJaguar right;
     
+    int FACTOR = 100;
+    
     public DriveTrain(){
         
         right = new DriveJaguar(3, .05, .02, .5); //jag number, and P, I, and D
@@ -23,8 +25,8 @@ public class DriveTrain {
     }
     
     public void drive(double forwardSpeed, double turnSpeed){
-        double leftValue = forwardSpeed + turnSpeed;
-        double rightValue = forwardSpeed - turnSpeed;
+        double leftValue = (forwardSpeed + turnSpeed) * FACTOR;
+        double rightValue = (forwardSpeed - turnSpeed) * FACTOR;
         System.out.println("Setting speed:"+leftValue);
         if(right.getSetSpeed() != leftValue || left.getSetSpeed() != rightValue){
             left.set(leftValue);
