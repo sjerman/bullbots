@@ -28,7 +28,7 @@ public class Main extends IterativeRobot {
     public void teleopPeriodic() {
         try{
             
-            driveTrain.drive(joystick.getYAxis() * 100, joystick.getXAxis() * 100);
+            driveTrain.drive(joystick.getYAxis(), joystick.getXAxis());
         }
         catch(Exception e){
             e.printStackTrace();

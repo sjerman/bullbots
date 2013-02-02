@@ -11,17 +11,28 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class JoystickControl {
     Joystick joystick;
+    double DEADBAND = .05;
     
     public JoystickControl(int port){
         joystick = new Joystick(port);
+        
     }
 
     public double getYAxis(){
-        return joystick.getRawAxis(1);
+        double value = joystick.getRawAxis(1);
+        if(value > DEADBAND){
+            return value;
+        }
+        return 0;
+
     }
     
     public double getXAxis(){
-        return joystick.getRawAxis(2);
+        double value = joystick.getRawAxis(2);
+        if(value > DEADBAND){
+            return value;
+        }
+        return 0;
     }
     
     public double getThrottle(){
