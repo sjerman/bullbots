@@ -78,9 +78,11 @@ public class TrackingController {
            
             
             
-            if(!pressed && joystick.getButton(9)){
-                filteredImage.write("/FilteredImage.png");
-                System.out.println("Writing image");
+            if(joystick.getButton(9)){
+                if(!pressed){
+                    filteredImage.write("/FilteredImage.png");
+                    System.out.println("Writing image");
+                }
                 pressed = true;
             } 
             else{
