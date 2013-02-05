@@ -14,10 +14,14 @@ public class Main extends IterativeRobot {
     JoystickControl gamepad;
     TrackingController trackingController;
     
+    private final double DAMP = 300;
+    
     public void robotInit() {
         joystick = new JoystickControl(1);
         //gamepad = new JoystickControl(2);
         trackingController = new TrackingController(joystick);
+        
+        
         
         driveTrain = new DriveTrain();
     }
@@ -36,7 +40,7 @@ public class Main extends IterativeRobot {
                 trackingController.trackGoal();
                 System.out.println(trackingController.getDif());
                 if(Math.abs(trackingController.getDif()) > 5){
-                    driveTrain.driveVoltage(0,trackingController.getDif()/240);
+                    driveTrain.driveVoltage(0,trackingController.getDif()/DAMP);
                 }
                 else{
                     driveTrain.driveVoltage(0,0);

@@ -35,6 +35,8 @@ public class TrackingController {
     private final int GREEN_LOW = 230;
     private final int GREEN_HIGH = 255;
     
+    
+    
     private final double RECTANGULARITY = .9;
     
     private double dif = 0;
@@ -112,6 +114,7 @@ public class TrackingController {
                 thresholdImage.free();
                 convexImage.free();
                 removeSmallObjectImage.free();
+                
                 
             }
         }
