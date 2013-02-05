@@ -72,4 +72,14 @@ public class DriveJaguar {
             ex.printStackTrace();
         }
     }
+    
+    public double getCurrent(){
+        try{
+            return jag.getOutputCurrent();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 42000;
+    }
 }

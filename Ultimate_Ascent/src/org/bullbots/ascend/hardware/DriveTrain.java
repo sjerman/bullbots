@@ -70,5 +70,6 @@ public class DriveTrain {
         
         left.set(leftValue);
         right.set(rightValue);
+        System.out.println(left.getCurrent() + " , " + right.getCurrent());
     }
 }
