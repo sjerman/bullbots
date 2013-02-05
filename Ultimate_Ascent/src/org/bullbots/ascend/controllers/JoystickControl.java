@@ -19,7 +19,8 @@ public class JoystickControl {
     }
 
     public double getYAxis(){
-        double value = joystick.getRawAxis(1);
+        double value = joystick.getRawAxis(2);
+        //System.out.println("Y AXIS: " + value);
         if(Math.abs(value) > DEADBAND){
             return value;
         }
@@ -28,7 +29,8 @@ public class JoystickControl {
     }
     
     public double getXAxis(){
-        double value = joystick.getRawAxis(2);
+        double value = joystick.getRawAxis(1);
+        //System.out.println("X AXIS: " + value);
         if(Math.abs(value) > DEADBAND){
             return value;
         }

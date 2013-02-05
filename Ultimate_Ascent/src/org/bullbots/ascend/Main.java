@@ -30,12 +30,13 @@ public class Main extends IterativeRobot {
     
     public void teleopPeriodic() {
         try{
-            trackingController.trackGoal();
-            System.out.println("tracking");
+            
+            
             if(joystick.getButton(2)){
-                
+                trackingController.trackGoal();
+                System.out.println(trackingController.getDif());
                 if(Math.abs(trackingController.getDif()) > 5){
-                    driveTrain.driveVoltage(0,trackingController.getDif()/120);
+                    driveTrain.driveVoltage(0,trackingController.getDif()/240);
                 }
                 else{
                     driveTrain.driveVoltage(0,0);

@@ -30,12 +30,11 @@ public class Camera {
     public ColorImage getCameraImage(){
         try{
             if(cam.freshImage()){
-                if(img != null){
-                    img.free();
-                }
-                img = cam.getImage();
+                return cam.getImage();
             }
-            return img;
+            else{
+                return img;
+            }
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -45,6 +44,10 @@ public class Camera {
     
     public void setFPS(int frames){
         cam.writeMaxFPS(frames);
+    }
+    
+    public boolean hasImage(){
+        return (cam != null);
     }
     
     
