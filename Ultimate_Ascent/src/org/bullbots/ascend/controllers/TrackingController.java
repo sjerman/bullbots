@@ -37,7 +37,7 @@ public class TrackingController {
     
     
     
-    private final double RECTANGULARITY = .9;
+    private final double RECTANGULARITY = .85;
     
     private double dif = 0;
     
