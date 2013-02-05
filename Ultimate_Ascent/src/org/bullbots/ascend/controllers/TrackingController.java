@@ -15,7 +15,15 @@ public class TrackingController {
     
     Camera camera;
     ColorImage image;
-    BinaryImage filteredImage;
+    BinaryImage thresholdImage;
+    BinaryImage convexImage;
+    BinaryImage removeSmallObjectImage;
+    
+    
+    
+    
+    
+    
     CriteriaCollection criteriaCollection = new CriteriaCollection();
     ParticleAnalysisReport[] particleReport;
     JoystickControl joystick;
@@ -24,7 +32,7 @@ public class TrackingController {
     
     private boolean pressed = false;
     
-    private final int GREEN_LOW = 198;
+    private final int GREEN_LOW = 230;
     private final int GREEN_HIGH = 255;
     
     private final double RECTANGULARITY = .9;
@@ -46,54 +54,71 @@ public class TrackingController {
     }
     
     public void trackGoal(){
-        image = camera.getCameraImage();
         
-        
+
         try
         {
-            filteredImage = image.thresholdRGB(0, 0, GREEN_LOW, GREEN_HIGH, 0, 0);
-            filteredImage = filteredImage.convexHull(true);
-            filteredImage = filteredImage.removeSmallObjects(false, 4);
-            filteredImage.particleFilter(criteriaCollection);
-            particleReport = filteredImage.getOrderedParticleAnalysisReports();
             
+            image = camera.getCameraImage();
             
-            for(int i = 0; i  < particleReport.length; i++){
-                if(i == 0){
-                    for(int k = 0; k < particleReport.length; k++){
-                        if(particleReport[k].particleArea/(particleReport[k].boundingRectHeight*particleReport[k].boundingRectWidth) >= RECTANGULARITY){
-                            highestRectangle = particleReport[0];
-                            k = particleReport.length;
-                            i = k + 1;
-                        }
-                    } 
+            if(image != null){
+                thresholdImage = image.thresholdRGB(0, 255, GREEN_LOW, GREEN_HIGH, 0, 255);
+                convexImage = thresholdImage.convexHull(true);
+                removeSmallObjectImage = convexImage.removeSmallObjects(false, 4);
+                removeSmallObjectImage.particleFilter(criteriaCollection);
+                particleReport = removeSmallObjectImage.getOrderedParticleAnalysisReports();
+
+
+                for(int i = 0; i  < particleReport.length; i++){
+                    if(i == 0){
+                        highestRectangle = particleReport[0];
+                        for(int k = 0; k < particleReport.length; k++){
+                            
+                            if(particleReport[k].particleArea/(particleReport[k].boundingRectHeight*particleReport[k].boundingRectWidth) >= RECTANGULARITY){
+                                highestRectangle = particleReport[k];
+                                k = particleReport.length;
+                                i = k + 1;
+                            }
+                        } 
+                    }
+                    else if(highestRectangle.center_mass_y < particleReport[i].center_mass_y && particleReport[i].particleArea/(particleReport[i].boundingRectHeight*particleReport[i].boundingRectWidth) >= RECTANGULARITY){
+                        highestRectangle = particleReport[i];
+                    }
                 }
-                else if(highestRectangle.center_mass_y < particleReport[i].center_mass_y && particleReport[i].particleArea/(particleReport[i].boundingRectHeight*particleReport[i].boundingRectWidth) >= RECTANGULARITY){
-                    highestRectangle = particleReport[i];
+
+                if(highestRectangle != null){
+                   dif = -((image.getWidth()/2) - highestRectangle.center_mass_x);  
+                   //System.out.println(highestRectangle.center_mass_x);
+                   System.out.println("DIFF: " + dif);
                 }
+
+
+
+
+                if(joystick.getButton(1)){
+                    if(!pressed){
+                        removeSmallObjectImage.write("/FilteredImage.png");
+                        System.out.println("Writing image");
+                    }
+                    pressed = true;
+                } 
+                else{
+                    pressed = false;
+                }
+
+                //System.out.println("Freeing images");
+                
+                image.free();
+                thresholdImage.free();
+                convexImage.free();
+                removeSmallObjectImage.free();
+                
             }
-            
-            
-            dif = (image.getWidth()/2) - highestRectangle.center_mass_x; 
-           
-            
-            
-            if(joystick.getButton(9)){
-                if(!pressed){
-                    filteredImage.write("/FilteredImage.png");
-                    System.out.println("Writing image");
-                }
-                pressed = true;
-            } 
-            else{
-                pressed = false;
-            }
-            
-            System.out.println("Freeing images");
-            filteredImage.free();
-            image.free();
-             
         }
-        catch(Exception e){}
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+       
     }
 }
