@@ -4,19 +4,22 @@
  */
 package org.bullbots.ascend.hardware;
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
  *
  * @author Admin
  */
-public class DriveTrain {
+public class DriveTrain implements PIDOutput{
     
     private DriveJaguar left;
     private DriveJaguar right;
     
     private final int SPEED_FACTOR = 100;
     private final int VOLTAGE_FACTOR = 1;
+    
+    private double pidValue = 0;
     
     public DriveTrain(){
         
@@ -67,9 +70,16 @@ public class DriveTrain {
         //System.out.println("rightValue: " + rightValue);
         //System.out.println("turnVoltage: " + turnVoltage);
         
-        
         left.set(leftValue);
         right.set(rightValue);
         System.out.println(left.getCurrent() + " , " + right.getCurrent());
+    }
+    
+    public void turnPID(){
+        driveVoltage(0, pidValue);
+    }
+
+    public void pidWrite(double d) {
+        pidValue = -d;
     }
 }

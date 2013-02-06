@@ -4,6 +4,7 @@
  */
 package org.bullbots.ascend.controllers;
 
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.image.*;
 import org.bullbots.ascend.hardware.Camera;
 
@@ -11,19 +12,13 @@ import org.bullbots.ascend.hardware.Camera;
  *
  * @author Loid Sherwood
  */
-public class TrackingController {
+public class TrackingController implements PIDSource{
     
     Camera camera;
     ColorImage image;
     BinaryImage thresholdImage;
     BinaryImage convexImage;
     BinaryImage removeSmallObjectImage;
-    
-    
-    
-    
-    
-    
     CriteriaCollection criteriaCollection = new CriteriaCollection();
     ParticleAnalysisReport[] particleReport;
     JoystickControl joystick;
@@ -121,7 +116,10 @@ public class TrackingController {
         catch(Exception e){
             e.printStackTrace();
         }
-        
-       
+    }
+    
+    public double pidGet() {
+        return dif;
+      
     }
 }
