@@ -19,7 +19,7 @@ public class ClimberLord {
         try{
             jag = new CANJaguar(number, CANJaguar.ControlMode.kPosition);
             jag.setPID(P, I, D);
-            jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
+            jag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
             jag.configEncoderCodesPerRev(360);
             jag.configMaxOutputVoltage(12);
             jag.enableControl();
@@ -40,14 +40,24 @@ public class ClimberLord {
         }
     }
     
-    public double getSetSpeed(){
+    public double getSetPos(){
         try {
             return jag.getX();
         } catch (CANTimeoutException ex) {
-            System.out.println("Problem getting speed");
+            System.out.println("Problem getting position");
 //            ex.printStackTrace();
         }
         return 0.0;
+    }
+    
+    public double getActPos(){
+        try{
+            return jag.getPosition();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 394203;
     }
     
     public CANJaguar.ControlMode getJagControlMode(){
@@ -76,6 +86,18 @@ public class ClimberLord {
         catch(Exception ex){
             ex.printStackTrace();
         }
-        return 42000;
+        return 424242;
     }
+    
+    public double getVoltage(){
+        try{
+            return jag.getOutputVoltage();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 424242;
+    }
+    
+   
 }

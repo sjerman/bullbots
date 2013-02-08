@@ -8,9 +8,10 @@ import org.bullbots.ascend.hardware.DriveTrain;
 
 public class Main extends IterativeRobot {
     
-    DriveTrain driveTrain;
     JoystickControl joystick;
     JoystickControl gamepad;
+    
+    DriveTrain driveTrain;
     TrackingController trackingController;
     PIDController pidController;
     
