@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.bullbots.ascend.controllers;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -22,19 +18,16 @@ public class TrackingController implements PIDSource{
     CriteriaCollection criteriaCollection = new CriteriaCollection();
     ParticleAnalysisReport[] particleReport;
     JoystickControl joystick;
-    
     ParticleAnalysisReport highestRectangle;
     
     private boolean pressed = false;
     
     private final int GREEN_LOW = 230;
     private final int GREEN_HIGH = 255;
-    
-    
-    
     private final double RECTANGULARITY = .85;
     
     private double dif = 0;
+    private double rotationDamping = .75;
     
     public TrackingController(JoystickControl joystick){
         try{
@@ -51,11 +44,8 @@ public class TrackingController implements PIDSource{
     }
     
     public void trackGoal(){
-        
-
         try
         {
-            
             image = camera.getCameraImage();
             
             if(image != null){
@@ -64,7 +54,6 @@ public class TrackingController implements PIDSource{
                 removeSmallObjectImage = convexImage.removeSmallObjects(false, 4);
                 removeSmallObjectImage.particleFilter(criteriaCollection);
                 particleReport = removeSmallObjectImage.getOrderedParticleAnalysisReports();
-
 
                 for(int i = 0; i  < particleReport.length; i++){
                     if(i == 0){
@@ -84,13 +73,10 @@ public class TrackingController implements PIDSource{
                 }
 
                 if(highestRectangle != null){
-                   dif = -((image.getWidth()/2) - highestRectangle.center_mass_x);  
+                   dif = ((image.getWidth()/2) - highestRectangle.center_mass_x);  
                    //System.out.println(highestRectangle.center_mass_x);
                    System.out.println("DIFF: " + dif);
                 }
-
-
-
 
                 if(joystick.getButton(1)){
                     if(!pressed){
@@ -109,8 +95,6 @@ public class TrackingController implements PIDSource{
                 thresholdImage.free();
                 convexImage.free();
                 removeSmallObjectImage.free();
-                
-                
             }
         }
         catch(Exception e){

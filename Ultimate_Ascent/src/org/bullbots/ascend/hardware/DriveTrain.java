@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.bullbots.ascend.hardware;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -80,6 +76,6 @@ public class DriveTrain implements PIDOutput{
     }
 
     public void pidWrite(double d) {
-        pidValue = -d;
+        pidValue = d;
     }
 }

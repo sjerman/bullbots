@@ -1,12 +1,10 @@
 package org.bullbots.ascend;
 
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
 import org.bullbots.ascend.controllers.JoystickControl;
 import org.bullbots.ascend.controllers.TrackingController;
 import org.bullbots.ascend.hardware.DriveTrain;
-
 
 public class Main extends IterativeRobot {
     
@@ -18,9 +16,16 @@ public class Main extends IterativeRobot {
     
     private final double DAMP = 300;
     
-    private final double P = 0.005;
-    private final double I = 0.001;
-    private final double D = 0;
+    /* Original PID's 
+     * P = .005
+     * I = .001
+     * D = 0
+     */
+    
+    
+    private final double P = 0.0023;
+    private final double I = 0.05;
+    private final double D = .4;
     
     public void robotInit() {
         joystick = new JoystickControl(1);
@@ -35,13 +40,11 @@ public class Main extends IterativeRobot {
         pidController.setAbsoluteTolerance(3);
         pidController.enable();
     }
-
     
     public void autonomousPeriodic() {
 
     }
 
-    
     public void teleopPeriodic() {
         try{
             pidController.enable();
@@ -55,13 +58,9 @@ public class Main extends IterativeRobot {
             else{
                 driveTrain.driveVoltage(joystick.getYAxis(), joystick.getXAxis());
             }
-            
-            
         }
         catch(Exception e){
             e.printStackTrace();
         }
-        
     }
-    
 }

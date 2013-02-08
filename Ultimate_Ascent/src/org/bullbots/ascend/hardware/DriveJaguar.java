@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.bullbots.ascend.hardware;
 
 import edu.wpi.first.wpilibj.CANJaguar;
@@ -12,6 +8,7 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  * @author Admin
  */
 public class DriveJaguar {
+    
     private  CANJaguar jag;
     
 //    double P = .05;
@@ -32,7 +29,6 @@ public class DriveJaguar {
             System.out.println("Problem initializing jags");
             ex.printStackTrace();
         }
-    
     }
     
     public void set(double value){
