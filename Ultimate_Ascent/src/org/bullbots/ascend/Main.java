@@ -1,10 +1,8 @@
 package org.bullbots.ascend;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PIDController;
-import org.bullbots.ascend.controllers.JoystickControl;
-import org.bullbots.ascend.controllers.TrackingController;
-import org.bullbots.ascend.hardware.DriveTrain;
+import edu.wpi.first.wpilibj.*;
+import org.bullbots.ascend.controllers.*;
+import org.bullbots.ascend.hardware.*;
 
 public class Main extends IterativeRobot {
     
@@ -14,6 +12,8 @@ public class Main extends IterativeRobot {
     DriveTrain driveTrain;
     TrackingController trackingController;
     PIDController pidController;
+    
+    private Shooter shooter = new Shooter();
     
     private final double DAMP = 300;
     
@@ -63,5 +63,7 @@ public class Main extends IterativeRobot {
         catch(Exception e){
             e.printStackTrace();
         }
+        
+        shooter.tick();
     }
 }
