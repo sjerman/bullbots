@@ -15,6 +15,8 @@ public class Main extends IterativeRobot {
     
     private Shooter shooter = new Shooter();
     
+    private static boolean isClimbing = false;
+    
     private final double DAMP = 300;
     
     /* Original PID's 
@@ -47,23 +49,36 @@ public class Main extends IterativeRobot {
     }
 
     public void teleopPeriodic() {
-        try{
-            pidController.enable();
-            
-            if(joystick.getButton(2)){
-                trackingController.trackGoal();
-                driveTrain.turnPID();
-                System.out.println("PID VALUE" + pidController.get());
+        if(!isClimbing){
+            try{
+                pidController.enable();
+
+                if(joystick.getButton(2)){
+                    trackingController.trackGoal();
+                    driveTrain.turnPID();
+                    System.out.println("PID VALUE" + pidController.get());
+                }
+                
+                // Indexing the frisbees
+                if(joystick.getButton(3))
+                {
+                    shooter.getHopper().spinWheel();
+                }
+
+                else{
+                    driveTrain.driveVoltage(joystick.getYAxis(), joystick.getXAxis());
+                }
             }
-            
-            else{
-                driveTrain.driveVoltage(joystick.getYAxis(), joystick.getXAxis());
+            catch(Exception e){
+                e.printStackTrace();
             }
+
+            shooter.tick();
         }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        
-        shooter.tick();
+    }
+    
+    public void isClimbing(boolean value)
+    {
+        isClimbing = value;
     }
 }

@@ -27,7 +27,6 @@ public class TrackingController implements PIDSource{
     private final double RECTANGULARITY = .85;
     
     private double dif = 0;
-    private double rotationDamping = .75;
     
     public TrackingController(JoystickControl joystick){
         try{
