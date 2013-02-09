@@ -41,13 +41,13 @@ public class Hopper implements Runnable
         return false;
     }
     
-    public void spinWheel()
+    public synchronized void spinWheel()
     {
         run();
         vic.set(vicSpeed);
     }
     
-    public void stopWheel()
+    public synchronized void stopWheel()
     {
         vic.set(0);
     }

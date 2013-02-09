@@ -11,6 +11,11 @@ public class Shooter
     
     public Shooter()
     {
+        init();
+    }
+    
+    private void init()
+    {
         new Thread(cannon).start();
         new Thread(hopper).start();
     }

@@ -58,7 +58,7 @@ public class Cannon implements Runnable
         }
     }
     
-    public void fire()
+    public synchronized void fire()
     {
         try
         {
@@ -79,7 +79,7 @@ public class Cannon implements Runnable
         catch(Exception e){}
     }
     
-    public void stopWheels()
+    public synchronized void stopWheels()
     {
         try
         {

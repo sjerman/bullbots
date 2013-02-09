@@ -59,7 +59,7 @@ public class Main extends IterativeRobot {
                     System.out.println("PID VALUE" + pidController.get());
                 }
                 
-                // Indexing the frisbees
+                // Indexing the frisbee
                 if(joystick.getButton(3))
                 {
                     shooter.getHopper().spinWheel();
