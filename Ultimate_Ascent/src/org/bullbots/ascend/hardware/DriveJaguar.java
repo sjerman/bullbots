@@ -11,12 +11,14 @@ public class DriveJaguar {
     
     private  CANJaguar jag;
     
-//    double P = .05;
-//    double I = .02;
-//    double D = .5;
-    
+    double P;
+    double I;
+    double D;    
     public DriveJaguar(int number, double P, double I, double D){
         try{
+            this.P = P;
+            this.I = I;
+            this.D = D;
             jag = new CANJaguar(number, CANJaguar.ControlMode.kSpeed);
             jag.setPID(P, I, D);
             jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
@@ -63,6 +65,12 @@ public class DriveJaguar {
     public void setJagControlMode(CANJaguar.ControlMode mode){
         try{
             jag.changeControlMode((mode));
+            jag.setPID(P, I, D);
+            jag.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
+            jag.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
+            jag.configEncoderCodesPerRev(360);
+            jag.configMaxOutputVoltage(12);
+            jag.enableControl();
         }
         catch(Exception ex){
             ex.printStackTrace();

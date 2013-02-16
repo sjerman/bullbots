@@ -11,9 +11,10 @@ public class Main extends IterativeRobot {
     
     DriveTrain driveTrain;
     TrackingController trackingController;
-    PIDController pidController;
+    PIDController pidTrackingController;
+    PIDController pidDepthController;
     
-    private Shooter shooter = new Shooter();
+    //private Shooter shooter = new Shooter();
     
     private static boolean isClimbing = false;
     
@@ -26,9 +27,15 @@ public class Main extends IterativeRobot {
      */
     
     
-    private final double P = 0.0023;
-    private final double I = 0.05;
-    private final double D = .4;
+    private final double P_TRACKING = 0.00006; //0.0023
+    private final double I_TRACKING = 0.5;  //0.05
+    private final double D_TRACKING = 1.0; //0.4
+    
+    private final double P_DEPTH = 0.012;
+    private final double I_DEPTH = 0.0;
+    private final double D_DEPTH = 0.0;
+    
+    private final double OPTIMAL_DEPTH = 140;
     
     public void robotInit() {
         joystick = new JoystickControl(1);
@@ -36,12 +43,20 @@ public class Main extends IterativeRobot {
         trackingController = new TrackingController(joystick); // Input for tracking PID
         
         driveTrain = new DriveTrain(); // Output for tracking PID
-        pidController = new PIDController(P, I, D, trackingController, driveTrain);
-        pidController.setSetpoint(0);
-        pidController.setContinuous(true);
-        pidController.setOutputRange(-1, 1);
-        pidController.setAbsoluteTolerance(3);
-        pidController.enable();
+        
+        pidTrackingController = new PIDController(P_TRACKING, I_TRACKING, D_TRACKING, trackingController.getTrackingErrorSource(), driveTrain.getTrackingPidOutput());
+        pidTrackingController.setSetpoint(0);
+        pidTrackingController.setContinuous(true);
+        pidTrackingController.setOutputRange(-.5, .5);
+        pidTrackingController.setAbsoluteTolerance(3);
+        pidTrackingController.enable();
+        
+        pidDepthController = new PIDController(P_DEPTH, I_DEPTH, D_DEPTH, trackingController.getDepthErrorSource(), driveTrain.getDepthPidOutput());
+        pidDepthController.setSetpoint(OPTIMAL_DEPTH);
+        pidDepthController.setContinuous(true);
+        pidDepthController.setOutputRange(-.7, .7);
+        pidDepthController.setAbsoluteTolerance(8);
+        pidDepthController.enable();
     }
     
     public void autonomousPeriodic() {
@@ -51,21 +66,29 @@ public class Main extends IterativeRobot {
     public void teleopPeriodic() {
         if(!isClimbing){
             try{
-                pidController.enable();
+                
 
                 if(joystick.getButton(2)){
                     trackingController.trackGoal();
                     driveTrain.turnPID();
-                    System.out.println("PID VALUE" + pidController.get());
+                    
+//                    if(!driveTrain.isDoneTurning())
+//                    {
+//                        
+//                    }
+//                    else{
+//                        //driveTrain.forwardPID();
+//                    }
                 }
                 
-                // Indexing the frisbee
-                if(joystick.getButton(3))
+                 
+                else if(joystick.getButton(3))
                 {
-                    shooter.getHopper().spinWheel();
+                    trackingController.trackGoal();
+                    driveTrain.forwardPID();
                 }
-
                 else{
+                    
                     driveTrain.driveVoltage(joystick.getYAxis(), joystick.getXAxis());
                 }
             }
@@ -73,7 +96,7 @@ public class Main extends IterativeRobot {
                 e.printStackTrace();
             }
 
-            shooter.tick();
+            //shooter.tick();
         }
     }
     
