@@ -33,10 +33,13 @@ public class DriveTrain{
         }
     }
     
-    private DriveJaguar left;
-    private DriveJaguar right;
+    private DriveLord left;
+    private DriveLord right;
     
-    private final int SPEED_FACTOR = 150;
+    private DriveSlave leftSlave;
+    private DriveSlave rightSlave;
+    
+    private final int SPEED_FACTOR = 100;
     private final int VOLTAGE_FACTOR = 1;
     
     private double trackingPIDValue = 0;
@@ -44,8 +47,11 @@ public class DriveTrain{
     
     public DriveTrain(){
         
-        right = new DriveJaguar(3, .05, .02, .5); //jag number, and P, I, and D
-        left = new DriveJaguar(6, .05, .02, .5); //jag number, and P, I, and D
+        right = new DriveLord(3, .05, .02, .5); //jag number, and P, I, and D
+        left = new DriveLord(6, .05, .02, .5); //jag number, and P, I, and D
+        
+        rightSlave = new DriveSlave(4,right);
+        leftSlave = new DriveSlave(1,left);
         
         //700, 5 , 0
 
@@ -61,7 +67,9 @@ public class DriveTrain{
         
         if(right.getSetSpeed() != leftValue || left.getSetSpeed() != rightValue){
             left.set(leftValue);
+            leftSlave.update();
             right.set(rightValue);
+            rightSlave.update();
         }
         
     }
@@ -76,7 +84,9 @@ public class DriveTrain{
         double rightValue = (rightRotation + rightRotation) ;
         
         left.set(leftValue);
+        leftSlave.update();
         right.set(rightValue);
+        rightSlave.update();
     }
     
     public void driveVoltage(double forwardVoltage, double turnVoltage){
@@ -87,14 +97,14 @@ public class DriveTrain{
         
         double leftValue = -(forwardVoltage - turnVoltage) * VOLTAGE_FACTOR;
         double rightValue = (forwardVoltage + turnVoltage) * VOLTAGE_FACTOR;
-        //System.out.println("leftValue: " + leftValue);
-        //System.out.println("rightValue: " + rightValue);
-        //System.out.println("turnVoltage: " + turnVoltage);
-        System.out.println(left.getCurrent());
-        left.set(leftValue);
-        right.set(rightValue);
-        System.out.println(left.getSetSpeed());
-        //System.out.println(left.getCurrent() + " , " + right.getCurrent());
+        
+        //left.set(leftValue);
+        //leftSlave.update();
+        //leftSlave.set(leftValue);
+        
+        //right.set(rightValue);
+        //rightSlave.update();
+        //rightSlave.set(rightValue);
     }
     
     public void turnPID(){

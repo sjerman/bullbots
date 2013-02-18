@@ -27,8 +27,8 @@ public class Climber {
     private final double CURRENT_THRESHOLD = 40;
     
     public Climber(){
-        master = new ClimberLord(1,P, I, D); // NEED TO CONFIRM JAG NUMBER!!
-        slave = new ClimberSlave(2, master); // NEED TO CONFIRM JAG NUMBER!!
+        master = new ClimberLord(2, P, I, D); // NEED TO TUNE PIDS!!
+        slave = new ClimberSlave(5, master); 
         
         brake = new Servo(3); //NEED TO CONFIRM SLOT NUMBER
         bottomSwitch = new DigitalInput(4); // NEED TO CONFIRM SLOT NUMBER

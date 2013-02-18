@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Victor;
  * @author Clay Kuznia
  * @version February 7, 2013
  */
-public class Hopper implements Runnable
+public class Hopper
 {
     private DigitalInput topSwitch = new DigitalInput(0); // Need to configure the port!!!
     private DigitalInput bottomSwitch = new DigitalInput(1); // Need to configure the port!!!
@@ -43,7 +43,6 @@ public class Hopper implements Runnable
     
     public synchronized void spinWheel()
     {
-        run();
         vic.set(vicSpeed);
     }
     
@@ -52,23 +51,4 @@ public class Hopper implements Runnable
         vic.set(0);
     }
     
-    public void run()
-    {
-        System.out.println("RUN CALLED ======= HOPPER");
-        if(!firstTime)
-        {
-            try
-            {
-                Thread.sleep(spinTime);
-                stopWheel();
-            }
-
-            catch(Exception  e){}
-        }
-        
-        else
-        {
-            firstTime = false;
-        }
-    }
 }

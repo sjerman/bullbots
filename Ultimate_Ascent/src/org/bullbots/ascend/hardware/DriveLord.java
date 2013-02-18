@@ -7,14 +7,15 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  *
  * @author Admin
  */
-public class DriveJaguar {
+public class DriveLord {
     
     private  CANJaguar jag;
     
     double P;
     double I;
     double D;    
-    public DriveJaguar(int number, double P, double I, double D){
+    
+    public DriveLord(int number, double P, double I, double D){
         try{
             this.P = P;
             this.I = I;
@@ -80,6 +81,16 @@ public class DriveJaguar {
     public double getCurrent(){
         try{
             return jag.getOutputCurrent();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 42000;
+    }
+    
+    public double getVoltage(){
+        try{
+            return jag.getOutputVoltage();
         }
         catch(Exception ex){
             ex.printStackTrace();

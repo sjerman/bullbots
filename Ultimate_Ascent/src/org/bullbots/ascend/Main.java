@@ -10,6 +10,8 @@ public class Main extends IterativeRobot {
     JoystickControl gamepad;
     
     DriveTrain driveTrain;
+    Shooter shooter;
+    
     TrackingController trackingController;
     PIDController pidTrackingController;
     PIDController pidDepthController;
@@ -39,7 +41,7 @@ public class Main extends IterativeRobot {
     
     public void robotInit() {
         joystick = new JoystickControl(1);
-        //gamepad = new JoystickControl(2);
+        gamepad = new JoystickControl(2);
         trackingController = new TrackingController(joystick); // Input for tracking PID
         
         driveTrain = new DriveTrain(); // Output for tracking PID
@@ -71,14 +73,6 @@ public class Main extends IterativeRobot {
                 if(joystick.getButton(2)){
                     trackingController.trackGoal();
                     driveTrain.turnPID();
-                    
-//                    if(!driveTrain.isDoneTurning())
-//                    {
-//                        
-//                    }
-//                    else{
-//                        //driveTrain.forwardPID();
-//                    }
                 }
                 
                  
@@ -91,6 +85,12 @@ public class Main extends IterativeRobot {
                     
                     driveTrain.driveVoltage(joystick.getYAxis(), joystick.getXAxis());
                 }
+                
+                if(gamepad.getButton(1)){
+                    shooter.shoot();
+                }
+                
+                
             }
             catch(Exception e){
                 e.printStackTrace();

@@ -11,16 +11,17 @@ public class Shooter
     
     public Shooter()
     {
-        init();
+        try{
+            
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
     
-    private void init()
-    {
-        new Thread(cannon).start();
-        new Thread(hopper).start();
-    }
     
-    public void tick()
+    
+    public void shoot()
     {
         if(hopper.slot1Full())
         {
